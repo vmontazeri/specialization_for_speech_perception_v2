@@ -1,4 +1,4 @@
-# A specialization for speech perception
+# A specialization for speech perception (Version 2)
 
 MATLAB code for the experiments described in A specialization for speech perception.
 Refer to Liberman and Mattingly Speech is special Science 1989.pdf to see details of the experiment. 
