@@ -11,9 +11,9 @@ clc
 
 addpath('.\includes\');
 
-addpath('F:\Research\MATLAB codes')
-addpath('F:\Research\MATLAB')
-addpath('F:\Research\MATLAB\Spectrogram\')
+% addpath('F:\Research\MATLAB codes')
+% addpath('F:\Research\MATLAB')
+% addpath('F:\Research\MATLAB\Spectrogram\')
 
 if(exist('.\includes\current_session.mat', 'file'))
     recovery = input('Recovery mode? (Y/N)\n', 's');
@@ -78,12 +78,12 @@ stable_indx = trans_dur_ms*FS/1000+1: tone_len;
 
 trial_per_level = 1;
 
-global trial
-global tone_indx
-global total
-global return_value
-global stimuli_to_play;
-global practice_test
+% global trial
+% global tone_indx
+% global total
+% global return_value
+% global stimuli_to_play;
+% global practice_test
 
 clc
 input('Press enter to begin experiment 1');
@@ -235,7 +235,7 @@ for trial = start_trial : total
     
     stimuli_to_play = tone;
     
-    ui_choices3;
+    return_value = ui_choices3(FS, trial, total, tone_indx, practice_test, stimuli_to_play);
     
     valid_answer = 0;
     while(~valid_answer)

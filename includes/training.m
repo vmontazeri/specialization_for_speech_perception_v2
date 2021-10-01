@@ -1,11 +1,11 @@
 function training( debug, listener_code )
 
-global return_value;
-global correct_answer_details;
-global stimuli_to_play;
-global FS
-global trial
-global total
+% global return_value;
+% global correct_answer_details;
+% global stimuli_to_play;
+% global FS
+% global trial
+% global total
 
 F1_f_stable = 750;
 F1_f_start    = 250;

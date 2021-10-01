@@ -1,13 +1,12 @@
-function ui_choices3
+function return_value = ui_choices3(FS, trial, total, tone_indx, practice_test, stimuli_to_play)
 
-global return_value;
-global correct_answer_details;
-global stimuli_to_play;
-global FS
-global trial
-global total
-global tone_indx
-global practice_test
+% global return_value;
+% global correct_answer_details;
+% global stimuli_to_play;
+% global trial
+% global total
+% global tone_indx
+% global practice_test
 
 close all
 fig1 = figure(1);
@@ -74,6 +73,7 @@ if strcmpi(practice_test, 'test')
 else
     pause(1)
     uiresume(fig1)
+    return_value = 'Sound (B)';
     close all
 end
 
@@ -81,7 +81,7 @@ end
         %         disp(['Previous: ' event.OldValue.String]);
         %         disp(['Current: ' event.NewValue.String]);
         %         disp('------------------');
-        temp = event.NewValue.String
+        temp = event.NewValue.String;
         
         h = uicontrol('Style','pushbutton','String','Submit and proceed', 'FontSize', 25, ...
             'Units', 'Norm', ...
