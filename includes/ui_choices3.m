@@ -28,12 +28,12 @@ pause( tone_indx(1)/FS )
 % disp('')
 pause( tone_indx(2)/FS )
 % disp('tone2')
-h = uicontrol('Style','text','String','Sound (X)' , 'FontSize', 25, 'Units','Norm', 'Position', [0.45 0.75 0.1 0.05 ]);
+h = uicontrol('Style','text','String','Sound (X)' , 'FontSize', 25, 'Units','Norm', 'Position', [0.30 0.75 0.35 0.05 ]);
 pause( tone_indx(3)/FS )
 % disp('')
 pause( tone_indx(4)/FS )
 % disp('tone3')
-h = uicontrol('Style','text','String','Sound (B)' , 'FontSize', 25, 'Units','Norm', 'Position', [0.75 0.75 0.1 0.05 ]);
+h = uicontrol('Style','text','String','Sound (B)' , 'FontSize', 25, 'Units','Norm', 'Position', [0.60 0.75 0.35 0.05 ]);
 pause( tone_indx(5)/FS )
 pause(0.1)
 
