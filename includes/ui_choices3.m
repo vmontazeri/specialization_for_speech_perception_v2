@@ -37,7 +37,7 @@ h = uicontrol('Style','text','String','Sound (B)' , 'FontSize', 25, 'Units','Nor
 pause( tone_indx(5)/FS )
 pause(0.1)
 
-if strcmpi(practice_test, 'test')
+% if strcmpi(practice_test, 'test') || 1
     h = uicontrol('Style','text','String','Sound (X) sounded less like ', 'FontSize', 25, ...
         'Units','Norm', ...
         'Position', [ 0 0.55 1 0.05 ]);
@@ -55,14 +55,14 @@ if strcmpi(practice_test, 'test')
         'radiobutton',...
         'String','Sound (A)',...
         'Units','Norm', ...
-        'Position',[0.30 Y 0.1 0.1],...
+        'Position',[0.30 Y 0.35 0.1],...
         'HandleVisibility','off', ...
         'FontSize', 20);
     
     r2 = uicontrol(bg,'Style','radiobutton',...
         'String','Sound (B)',...
         'Units','Norm', ...
-        'Position',[0.65 Y .10 .10],...
+        'Position',[0.65 Y 0.35 .10],...
         'HandleVisibility','off', ...
         'FontSize', 20);
     
@@ -70,12 +70,12 @@ if strcmpi(practice_test, 'test')
     %
     % % Make the uibuttongroup visible after creating child objects.
     bg.Visible = 'on';
-else
-    pause(1)
-    uiresume(fig1)
-    return_value = 'Sound (B)';
-    close all
-end
+% else
+%     pause(1)
+%     uiresume(fig1)
+%     return_value = 'Sound (B)';
+%     close all
+% end
 
     function bselection(source,event)
         %         disp(['Previous: ' event.OldValue.String]);
@@ -103,8 +103,8 @@ end
         close all
     end
 
-if strcmpi(practice_test, 'test')
+% if strcmpi(practice_test, 'test')
 uiwait(fig1)
-end
+% end
 
 end

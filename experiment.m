@@ -2,8 +2,9 @@
 % perception'.
 %
 % Rev. 1, by V. Montazeri, 3/22/2020
-% Rev. 2: by V. Montazeri, 9/27/2021: Experiment 2 only with revised procedure.
-%
+% Rev. 2, by V. Montazeri, 9/27/2021: Experiment 2 only with revised procedure.
+% Rev. 3, by V. Montazeri, 10/2/2021: Fixed the ear for chirp and speech.
+%               Modified the procedure, both experiments play the same stimuli  
 
 clear
 close all
@@ -33,17 +34,29 @@ if(~recovery_mode)
     
     recovery_mode = 0;
     
-%     valid_answer = 0;
-%     while(~valid_answer)
-%         clc; disp('Enter mode (1) or (2):'); disp('(1) debug mode'); disp('(2) test mode');
-%         s = input('Enter your answer: ', 's');
-%         if(strcmpi(s, '1')), debug = 1; valid_answer = 1; elseif(strcmpi(s, '2')), debug = 0; valid_answer = 1; else, disp('invalid answer'); pause(1); end
-%     end
-    
     listener_code = input('Enter listener code or press enter to generate an automatic code:\n', 's');
     listener_code = {[listener_code '_' strrep(strrep(strrep(char(datetime), ':', '_'), '-', '_'), ' ', '_')]};
     
+    valid_answer = 0;
+    while(~valid_answer)
+        clc; disp('Enter instruction mode (1) or (2):'); disp('(1) Speech only first'); disp('(2) Chirp only first');
+        s = input('Enter your answer: ', 's');
+        if(strcmpi(s, '1')) 
+            instruction = {'speech_then_chirp'};
+            valid_answer = 1; 
+        elseif(strcmpi(s, '2')) 
+            instruction = {'chirp_then_speech'};
+            valid_answer = 1; 
+        else 
+            disp('invalid answer'); 
+            pause(1); 
+        end
+    end
+    
 end
+
+chirp_ear = 'right';
+speech_ear = 'left';
 
 F1_f_stable = 765;
 F1_f_start    = 279;
@@ -88,39 +101,37 @@ trial_per_level = 1;
 clc
 input('Press enter to begin experiment 1');
 
-factor1_levels = {'1-3'; '2-5'; '3-6'; '4-7'; '5-8'; '6-9'};
+factor1_levels = {'1_3'; '2_5'; '3_6'; '4_7'; '5_8'; '6_9'};
 factor2_levels = {'AAB'; 'ABB'; 'BAA'; 'BBA'};
 
 % determine wihch ear plays transient which plays stable parts
 if(~recovery_mode)
-    
-    if(rand(1,1)<=.5)
-        chirp_ear = 'left';
-        speech_ear = 'right';
-    else
-        chirp_ear = 'right';
-        speech_ear = 'left';
-    end
-    
-    conditions = {'listener', 'stim_type', 'practice_test', 'factor_1', 'factor_2', 'speech_ear', 'chirp_ear', 'set', 'answer'};
+        
+    conditions = {'listener', 'stim_type', 'practice_test', 'factor_1', 'factor_2', 'speech_ear', 'chirp_ear', 'set', 'instruction_mode', 'answer'};
     factor2_levels_1 = factor2_levels(randperm(length(factor2_levels)));
     st_indx = size(conditions,1);
-    for ifactor2 = 1 : length( factor2_levels )
+    for iset = 1 : 6
         
-        factor2_level = factor2_levels_1(ifactor2);
+%         factor2_level = factor2_levels_1(ifactor2);
         factor1_levels_1 = factor1_levels(randperm(length(factor1_levels)));
         
-        temp1 = repelem( factor1_levels_1, trial_per_level ); temp1 = temp1(:);
-        temp2 = repelem( factor2_level, trial_per_level*length(factor1_levels) ); temp2 = temp2(:);
+        temp1 = repelem( factor1_levels_1, length(factor2_levels_1) ); temp1 = temp1(:);
+        temp2 = repelem( factor2_levels_1, length(factor1_levels) ); temp2 = temp2(:);
         temp3 = repelem( {speech_ear}, length(temp2) ); temp3 = temp3(:);
         temp4 = repelem( {chirp_ear}, length(temp2) ); temp4 = temp4(:);
-        temp5 = repelem( {ifactor2}, length(temp2) ); temp5 = temp5(:);
+        temp5 = repelem( {iset}, length(temp2) ); temp5 = temp5(:);
         temp6 = repelem( {''}, length(temp2) ); temp6 = temp6(:);
         temp0 = repelem( listener_code, length(temp2) ); temp0 = temp0(:);
         temp7 = repelem( {'speech'}, length(temp2) ); temp7 = temp7(:);
+        if(strcmpi(char(instruction), 'speech_then_chirp'))
+            temp9 = repelem( {'speech only'}, length(temp2) ); temp9 = temp9(:);
+        else
+            temp9 = repelem( {'chirp only'}, length(temp2) ); temp9 = temp9(:);
+        end        
         temp8 = repelem( {'test'}, length(temp2) ); temp8 = temp8(:);
         
-        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp6];
+        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp9 temp6];
+        current_condition = current_condition( randperm(length(current_condition)),: );
         
         conditions = [ conditions ; current_condition ];
         
@@ -135,22 +146,28 @@ if(~recovery_mode)
     
     factor2_levels_1 = factor2_levels(randperm(length(factor2_levels)));
     st_indx = size(conditions,1);
-    for ifactor2 = 1 : length( factor2_levels )
+    for iset = 1 : 6
         
-        factor2_level = factor2_levels_1(ifactor2);
+%         factor2_level = factor2_levels_1(ifactor2);
         factor1_levels_1 = factor1_levels(randperm(length(factor1_levels)));
         
-        temp1 = repelem( factor1_levels_1, trial_per_level ); temp1 = temp1(:);
-        temp2 = repelem( factor2_level, trial_per_level*length(factor1_levels) ); temp2 = temp2(:);
+        temp1 = repelem( factor1_levels_1, length(factor2_levels_1) ); temp1 = temp1(:);
+        temp2 = repelem( factor2_levels_1, length(factor1_levels) ); temp2 = temp2(:);
         temp3 = repelem( {speech_ear}, length(temp2) ); temp3 = temp3(:);
         temp4 = repelem( {chirp_ear}, length(temp2) ); temp4 = temp4(:);
-        temp5 = repelem( {ifactor2}, length(temp2) ); temp5 = temp5(:);
+        temp5 = repelem( {iset}, length(temp2) ); temp5 = temp5(:);
         temp6 = repelem( {''}, length(temp2) ); temp6 = temp6(:);
         temp0 = repelem( listener_code, length(temp2) ); temp0 = temp0(:);
-        temp7 = repelem( {'chirp'}, length(temp2) ); temp7 = temp7(:);
+        temp7 = repelem( {'speech'}, length(temp2) ); temp7 = temp7(:);
         temp8 = repelem( {'test'}, length(temp2) ); temp8 = temp8(:);
+        if(strcmpi(char(instruction), 'speech_then_chirp'))
+            temp9 = repelem( {'chirp only'}, length(temp2) ); temp9 = temp9(:);
+        else
+            temp9 = repelem( {'speech only'}, length(temp2) ); temp9 = temp9(:);
+        end        
         
-        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp6];
+        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp9 temp6];
+        current_condition = current_condition( randperm(length(current_condition)),: );
         
         conditions = [ conditions ; current_condition ];
         
@@ -183,6 +200,9 @@ previous_set =  cell2mat(conditions( start_trial+1,  8));
 for trial = start_trial : total
     
     start_trial = trial;    
+    if(start_trial == total/2)
+        new_set(previous_set); pause(6);
+    end
     practice_test = char(conditions(trial+1,3));
     clc;
     
@@ -247,7 +267,7 @@ for trial = start_trial : total
         end
     end
     
-    conditions( trial+1, 9 ) = {R};
+    conditions( trial+1, 10 ) = {R};
     save('.\includes\current_session.mat', 'conditions');
     save(['.\data\' char(listener_code) '.mat'], 'conditions');
     save('.\includes\start_trial.mat', 'start_trial');
@@ -257,6 +277,9 @@ for trial = start_trial : total
 end
 
 disp('Experiment is completed.')
+
+T = cell2table( conditions(2:end,:), 'VariableNames', conditions(1,:) );
+writetable( T, ['.\data\' char(listener_code) '.csv'] )
 
 clear
 rmpath('.\includes\');
