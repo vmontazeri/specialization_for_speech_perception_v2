@@ -244,19 +244,19 @@ for trial = start_trial : total
         case 'AAB'
             tone = [tone1; interstim_gap; tone1; interstim_gap; tone2];
             tone_indx = [length(tone1); length(interstim_gap); length(tone1); length(interstim_gap); length(tone2);];
-            correct_answer = 'Sound (B)';
+            correct = 'Sound (A)';
         case 'ABB'
             tone = [tone1; interstim_gap; tone2; interstim_gap; tone2];
             tone_indx = [length(tone1); length(interstim_gap); length(tone2); length(interstim_gap); length(tone2);];
-            correct_answer = 'Sound (A)';
+            correct = 'Sound (B)';
         case 'BAA'
             tone = [tone2; interstim_gap; tone1; interstim_gap; tone1];
             tone_indx = [length(tone2); length(interstim_gap); length(tone1); length(interstim_gap); length(tone1);];
-            correct_answer = 'Sound (B)';
+            correct = 'Sound (A)';
         case 'BBA'
             tone = [tone2; interstim_gap; tone2; interstim_gap; tone1];
             tone_indx = [length(tone2); length(interstim_gap); length(tone2); length(interstim_gap); length(tone1);];
-            correct_answer = 'Sound (A)';
+            correct = 'Sound (B)';
     end
     
     stimuli_to_play = tone;
@@ -273,10 +273,9 @@ for trial = start_trial : total
         end
     end
     
-    if( strcmpi(R, correct_answer) ), correct = 1; else, correct = 0; end
+    if( strcmpi(R, correct_answe) ), correct = 1; else, correct = 0; end
     
     conditions( trial+1, 10 ) = {R};
-    conditions( trial+1, 11 ) = {correct};
     save('.\includes\current_session.mat', 'conditions');
     save(['.\data\' char(listener_code) '.mat'], 'conditions');
     save('.\includes\start_trial.mat', 'start_trial');
