@@ -108,80 +108,72 @@ factor2_levels = {'AAB'; 'ABB'; 'BAA'; 'BBA'};
 if(~recovery_mode)
         
     conditions = {'listener', 'stim_type', 'practice_test', 'factor_1', 'factor_2', 'speech_ear', 'chirp_ear', 'set', 'instruction_mode', 'answer', 'correct'};
+%     factor2_levels_1 = factor2_levels(randperm(length(factor2_levels)));
+%     st_indx = size(conditions,1);
+    for iset = 0 : 6
+        
+        set_conditions = [];
+        
+        if iset < 1, practice_test = {'practice'}; else, practice_test = {'test'}; end
+        if(strcmpi(char(instruction), 'speech_then_chirp'))
+            instruction_mode = {'speech only'};
+        else
+            instruction_mode = {'chirp only'};
+        end     
+        
+        for ifact1 = 1 : length(factor1_levels)
+            
+            factor1_level = factor1_levels( ifact1 );
+            
+            for ifact2 = 1 : length(factor2_levels)
+                
+                factor2_level = factor2_levels( ifact2 );
+                current_condition = [listener_code {'speech'} practice_test factor1_level factor2_level {speech_ear} {chirp_ear} ...
+                    {iset} instruction_mode {''} {''}];
+                set_conditions = [ set_conditions ; current_condition ];
+            end
+            
+        end
+        
+        set_conditions = set_conditions( randperm(length(set_conditions)),: );
+        
+        conditions = [ conditions ; set_conditions ];
+        
+    end
+
     factor2_levels_1 = factor2_levels(randperm(length(factor2_levels)));
     st_indx = size(conditions,1);
-    for iset = 1 : 6
+        for iset = 0 : 6
         
-%         factor2_level = factor2_levels_1(ifactor2);
-        factor1_levels_1 = factor1_levels(randperm(length(factor1_levels)));
+        set_conditions = [];
         
-        temp1 = repelem( factor1_levels_1, length(factor2_levels_1) ); temp1 = temp1(:);
-        temp2 = repelem( factor2_levels_1, length(factor1_levels) ); temp2 = temp2(:);
-        temp3 = repelem( {speech_ear}, length(temp2) ); temp3 = temp3(:);
-        temp4 = repelem( {chirp_ear}, length(temp2) ); temp4 = temp4(:);
-        temp5 = repelem( {iset}, length(temp2) ); temp5 = temp5(:);
-        temp6 = repelem( {''}, length(temp2) ); temp6 = temp6(:);
-        temp0 = repelem( listener_code, length(temp2) ); temp0 = temp0(:);
-        temp7 = repelem( {'speech'}, length(temp2) ); temp7 = temp7(:);
+        if iset < 1, practice_test = {'practice'}; else, practice_test = {'test'}; end
         if(strcmpi(char(instruction), 'speech_then_chirp'))
-            temp9 = repelem( {'speech only'}, length(temp2) ); temp9 = temp9(:);
+            instruction_mode = {'chirp only'};
         else
-            temp9 = repelem( {'chirp only'}, length(temp2) ); temp9 = temp9(:);
-        end        
-        temp8 = repelem( {'test'}, length(temp2) ); temp8 = temp8(:);
-        temp10 = repelem( {'NA'}, length(temp2) ); temp10 = temp10(:);
+            instruction_mode = {'speech only'};
+        end     
         
-        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp9 temp6 temp10];
-        current_condition = current_condition( randperm(length(current_condition)),: );
+        for ifact1 = 1 : length(factor1_levels)
+            
+            factor1_level = factor1_levels( ifact1 );
+            
+            for ifact2 = 1 : length(factor2_levels)
+                
+                factor2_level = factor2_levels( ifact2 );
+                current_condition = [listener_code {'speech'} practice_test factor1_level factor2_level {speech_ear} {chirp_ear} ...
+                    {iset} instruction_mode {''} {''}];
+                set_conditions = [ set_conditions ; current_condition ];
+            end
+            
+        end
         
-        conditions = [ conditions ; current_condition ];
+        set_conditions = set_conditions( randperm(length(set_conditions)),: );
         
-    end
-    end_indx = size(conditions, 1);
-    practice = conditions(st_indx+1:st_indx+length(current_condition),:);
-    for ii=1:size(practice,1)
-        practice(ii, 3) = {'practice'};
-        practice(ii, 8) = {[0]};
-    end
-    conditions = [conditions(1:st_indx, :); practice; conditions(st_indx+1:end_indx, :)];
-    
-    factor2_levels_1 = factor2_levels(randperm(length(factor2_levels)));
-    st_indx = size(conditions,1);
-    for iset = 1 : 6
-        
-%         factor2_level = factor2_levels_1(ifactor2);
-        factor1_levels_1 = factor1_levels(randperm(length(factor1_levels)));
-        
-        temp1 = repelem( factor1_levels_1, length(factor2_levels_1) ); temp1 = temp1(:);
-        temp2 = repelem( factor2_levels_1, length(factor1_levels) ); temp2 = temp2(:);
-        temp3 = repelem( {speech_ear}, length(temp2) ); temp3 = temp3(:);
-        temp4 = repelem( {chirp_ear}, length(temp2) ); temp4 = temp4(:);
-        temp5 = repelem( {iset}, length(temp2) ); temp5 = temp5(:);
-        temp6 = repelem( {''}, length(temp2) ); temp6 = temp6(:);
-        temp0 = repelem( listener_code, length(temp2) ); temp0 = temp0(:);
-        temp7 = repelem( {'speech'}, length(temp2) ); temp7 = temp7(:);
-        temp8 = repelem( {'test'}, length(temp2) ); temp8 = temp8(:);
-        if(strcmpi(char(instruction), 'speech_then_chirp'))
-            temp9 = repelem( {'chirp only'}, length(temp2) ); temp9 = temp9(:);
-        else
-            temp9 = repelem( {'speech only'}, length(temp2) ); temp9 = temp9(:);
-        end        
-        temp10 = repelem( {'NA'}, length(temp2) ); temp10 = temp10(:);
-        
-        current_condition = [temp0 temp7 temp8 temp1 temp2 temp3 temp4 temp5 temp9 temp6 temp10];
-        current_condition = current_condition( randperm(length(current_condition)),: );
-        
-        conditions = [ conditions ; current_condition ];
+        conditions = [ conditions ; set_conditions ];
         
     end
-    end_indx = size(conditions, 1);
-    practice = conditions(st_indx+1:st_indx+length(current_condition),:);
-    for ii=1:size(practice,1)
-        practice(ii, 3) = {'practice'};
-        practice(ii, 8) = {[0]};
-    end
-    conditions = [conditions(1:st_indx, :); practice; conditions(st_indx+1:end_indx, :)];
-    
+
     exp_num = 1;
     start_trial = 1;
     save('.\includes\current_session.mat', 'conditions')
